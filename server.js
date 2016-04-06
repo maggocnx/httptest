@@ -49,7 +49,7 @@ app.get("/com/:devId/:testDelay?/:type?", function(req,res){
 });
 
 app.get("/ping", function(req,res){
-	console.log("Health check");
+	// console.log("Health check");
 	res.sendStatus(200);
 });
 
