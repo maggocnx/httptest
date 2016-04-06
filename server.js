@@ -94,21 +94,11 @@ createOrder = function(type,orderId,callback){
 	fs.readFile('./testorder'+ type + '.json', function(err, data){
 		if(!err){
 
-			if(orderId){
-				orderId = req.params.orderId;
-			}
-			else{
 				orderId = randomstring.generate(4) + '-' +  randomstring.generate(4);
-			}
 			
 			var order = JSON.parse(data.toString());
 
-			if(order.dat){
-				order.dat = orderId;
-			}
-			else{
 				order.id = orderId;
-			}
 
 			order.ot = moment().format("MM/DD HH:mm");
 			order.type = 'order';
