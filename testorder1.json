@@ -1,0 +1,7 @@
+{
+    "dat": {
+      "tot": 22.5,
+      "id": "4711"
+    },
+    "prt": "lgo STDL1\nlnt\nlft \nlft Order :\nrgt D6XA6\nlft Date :\nrgt 17:03:16\nlft Time :\nrgt 1456938014\nlft Fooo :\nlnd\nlft 1 x Margharitta\nbr\nrgt 4 GBP 4\nlnt\nlft 1 x Frutti di Mare\nbr\nrgt 9.5 GBP 9.5\nlnt\nlft 1 x Capone\nbr\nrgt 9 GBP 9\nlnt\nrgt Total GBP 22.5\nlnd\nlft Delivery Address\nlft Name :\nrgt John Doe\nlft Street :\nrgt Samplestreet\nlft City :\nrgt Testcity\nlft Phone : \nrgt 01 555 555\nlnd\nlft Delivery :\nbld\n cnt\nlft Variety : \nrgt Pieces : \nbld\n cnt 22.5 GBP\n cnt Bar\n\n"
+}
