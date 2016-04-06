@@ -98,12 +98,21 @@ createOrder = function(type,orderId,callback){
 			else{
 				orderId = randomstring.generate(4) + '-' +  randomstring.generate(4);
 			}
+			
 			var order = JSON.parse(data.toString());
 
-			order.id = orderId;
+			if(order.dat){
+				order.dat = orderId;
+			}
+			else{
+				order.id = orderId;
+			}
+
 			order.ot = moment().format("MM/DD HH:mm");
 			order.type = 'order';
 			orders[order.id] = order;
+
+
 
 			var response = {req : order};
 			
