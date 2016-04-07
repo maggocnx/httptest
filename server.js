@@ -12,6 +12,7 @@ var randomstring = require("randomstring");
 var config = require("./config.json");
 var clients = {};
 var orders = {};
+var queue = {};
 
 app.use(bodyParser.json())
 app.use("/", express.static(Path.join(__dirname, '/')));
@@ -34,6 +35,7 @@ app.get("/com/:devId/:testDelay?/:type?", function(req,res){
 			if(order){
 				setTimeout(function(){
 					res.send(order);
+					delete clients[devId];
 				}, testDelay);
 			}
 			else{
@@ -42,10 +44,14 @@ app.get("/com/:devId/:testDelay?/:type?", function(req,res){
 		});
 	}
 	else{
-		clients[devId] = { res : res}; 
+		if(queue[devId]){
+			res.send(queue[devId]);
+			delete queue[devId];
+		}
+		else{
+			clients[devId] = { res : res}; 
+		}
 	}
-
-
 });
 
 app.get("/ping", function(req,res){
@@ -71,21 +77,22 @@ app.get("/order/:recipientId/:type?/:orderId?", function(req,res){
 	var devId = req.params.recipientId;
 	var device = clients[devId];
 
-	if(device){
-		createOrder(type,null,function(order){
-			if(order){
+	createOrder(type,null,function(order){
+		if(order){
+
+			if(device){
 				device.res.send(order);
 				delete clients[	devId];
-				res.sendStatus(200);
+				res.send({msg : "order send"})
+			}else{
+				queue[devId] = order;
+				res.send({msg : "order queued"})
 			}
-			else{
-				res.sendStatus(500);
-			}
-		})
-	}else{
-		res.send(500,"Device not found");
-	}
-
+		}
+		else{
+			res.sendStatus(500);
+		}
+	})
 });
 
 
@@ -94,18 +101,13 @@ createOrder = function(type,orderId,callback){
 	fs.readFile('./testorder'+ type + '.json', function(err, data){
 		if(!err){
 
-				orderId = randomstring.generate(4) + '-' +  randomstring.generate(4);
-			
+			orderId = randomstring.generate(4) + '-' +  randomstring.generate(4);
 			var order = JSON.parse(data.toString());
 
-				order.id = orderId;
-
+			order.id = orderId;
 			order.ot = moment().format("MM/DD HH:mm");
 			order.type = 'order';
 			orders[order.id] = order;
-
-
-
 			var response = {req : order};
 			
 			return callback(response);
