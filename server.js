@@ -1,15 +1,15 @@
+var config = require("./config.json");
 var express = require("express");
 var app = express();
 var server = require('http').Server(app);
 var Path = require("path");
-var port = 3000;
 var moment = require('moment');
 var fs = require('fs');
 var _ = require("underscore");
 var bodyParser = require('body-parser')
 var randomstring = require("randomstring");
 
-var config = require("./config.json");
+var port = config.port;
 var clients = {};
 var orders = {};
 var queue = {};
